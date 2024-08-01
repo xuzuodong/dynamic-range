@@ -1,0 +1,33 @@
+{
+  "name": "nuxt-app",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev -p 3366",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.25.0",
+    "@babel/traverse": "^7.25.2",
+    "@nuxt/devtools": "latest",
+    "@nuxt/ui": "^2.17.0",
+    "@sanomics/eslint-config": "^1.2.0",
+    "@types/babel__traverse": "^7.20.6",
+    "@types/ua-parser-js": "^0.7.39",
+    "@vueuse/nuxt": "^10.11.0",
+    "domhandler": "^5.0.3",
+    "echarts": "^5.5.1",
+    "eslint": "^9.8.0",
+    "htmlparser2": "^9.1.0",
+    "nuxt": "^3.12.4",
+    "tailwind-merge": "^2.4.0",
+    "traverse": "link:@types/@babel/traverse",
+    "typescript": "^5.5.4",
+    "ua-parser-js": "^1.0.38"
+  }
+}
