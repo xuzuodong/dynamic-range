@@ -65,15 +65,10 @@ defineShortcuts({
         handler: () => {
             if (filteredData.value && activeIndex.value !== -1) {
                 const item = filteredData.value[activeIndex.value]
-                if (item) selected.add(item)
-            }
-        },
-    },
-    backspace: {
-        handler: () => {
-            if (filteredData.value && activeIndex.value !== -1) {
-                const item = filteredData.value[activeIndex.value]
-                if (item) selected.delete(item)
+                if (item) {
+                    // eslint-disable-next-line ts/no-unused-expressions
+                    selected.has(item) ? selected.delete(item) : selected.add(item)
+                }
             }
         },
     },
@@ -101,6 +96,7 @@ onMounted(execute)
                             :class="{
                                 'bg-gray-200 dark:bg-gray-700': selected.has(camera),
                                 'bg-gray-100 dark:bg-gray-800': !selected.has(camera) && filteredData!.indexOf(camera) === activeIndex,
+                                'bg-gray-300 dark:bg-gray-600': selected.has(camera) && filteredData!.indexOf(camera) === activeIndex,
                             }"
                             @mouseover="activeIndex = index"
                             @mouseout="activeIndex = -1"
