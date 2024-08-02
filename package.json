@@ -25,6 +25,7 @@
     "eslint": "^9.8.0",
     "htmlparser2": "^9.1.0",
     "nuxt": "^3.12.4",
+    "nuxt-umami": "^2.6.4",
     "tailwind-merge": "^2.4.0",
     "traverse": "link:@types/@babel/traverse",
     "typescript": "^5.5.4",

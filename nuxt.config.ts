@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     },
 
     modules: ['@nuxt/ui', '@vueuse/nuxt'],
+    extends: ['nuxt-umami'],
 
     future: { compatibilityVersion: 4 },
     compatibilityDate: '2024-07-31',

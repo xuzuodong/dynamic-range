@@ -3,4 +3,7 @@ export default defineAppConfig({
         primary: 'slate',
         gray: 'neutral',
     },
+    umami: {
+        version: 2,
+    },
 })
