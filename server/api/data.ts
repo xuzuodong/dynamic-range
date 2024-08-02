@@ -49,7 +49,7 @@ export default defineCachedEventHandler(async () => {
         return false
     }, rootDOM.children, true, 1)[0] as Element
 
-    const javascriptCode = (scriptDOM?.children[0] as DataNode).data
+    const javascriptCode = (scriptDOM.children[0] as DataNode).data
     const ast = parse(javascriptCode)
 
     let ret
