@@ -67,7 +67,6 @@ defineShortcuts({
             if (filteredData.value && activeIndex.value !== -1) {
                 const item = filteredData.value[activeIndex.value]
                 if (item) {
-                    // eslint-disable-next-line ts/no-unused-expressions
                     props.selected.has(item) ? props.selected.delete(item) : props.selected.add(item)
                 }
             }

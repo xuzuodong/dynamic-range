@@ -12,7 +12,7 @@ onMounted(execute)
 </script>
 
 <template>
-    <div class="p-4 h-full flex space-x-4">
+    <div class="container py-4 h-full flex space-x-4">
         <chart :data="Array.from(selectedCameras)" class="items-stretch flex-1" style="contain: strict;" />
 
         <div class="sidebar h-full w-[350px] shrink-0">

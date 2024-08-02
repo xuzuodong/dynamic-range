@@ -11,13 +11,6 @@ export default <Partial<Config>>{
         },
         container: {
             center: true,
-            padding: {
-                'DEFAULT': '1rem',
-                'sm': '2rem',
-                'lg': '3rem',
-                'xl': '5rem',
-                '2xl': '12rem',
-            },
         },
     },
 }
