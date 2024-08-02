@@ -1,12 +1,14 @@
 export type Coord = [x: number, y: number]
 
+export interface Marker {
+    symbol?: 'triangle-down' | 'triangle' | 'diamond'
+    fillColor?: 'white'
+}
+
 export type DynamicRangeAtIso = {
     x: number
     y: number
-    marker?: {
-        symbol?: 'triangle-down' | 'triangle' | 'diamond'
-        fillColor: 'white'
-    }
+    marker?: Marker
 } | Coord
 
 export interface Camera {
