@@ -38,6 +38,7 @@ onMounted(async () => {
                 smooth: true,
                 lineStyle: { width: 1.5 },
                 symbolSize: 10,
+                symbol: 'circle',
                 data: lineData.data.map(p => ({
                     value: p.coord,
                     symbol: p.symbol === 'triangle-down'
