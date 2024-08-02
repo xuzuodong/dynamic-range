@@ -6,6 +6,7 @@ const { data: cameraData, execute } = useLazyFetch<Camera[]>('/api/data', {
     server: false,
 })
 
+const inputRef = ref()
 const search = ref('')
 
 const filteredData = computed(() => {
@@ -34,33 +35,33 @@ function moveActiveIndex(direction: 'up' | 'down') {
 const { device } = useUAParser()
 
 defineShortcuts({
-    arrowdown: {
+    'arrowdown': {
         usingInput: true,
         handler: () => {
             moveActiveIndex('down')
         },
     },
-    arrowup: {
+    'arrowup': {
         usingInput: true,
         handler: () => {
             moveActiveIndex('up')
         },
     },
-    ctrl_n: {
+    'ctrl_n': {
         usingInput: true,
         handler: () => {
             if (device.model === 'Macintosh')
                 moveActiveIndex('down')
         },
     },
-    ctrl_p: {
+    'ctrl_p': {
         usingInput: true,
         handler: () => {
             if (device.model === 'Macintosh')
                 moveActiveIndex('up')
         },
     },
-    enter: {
+    'enter': {
         usingInput: true,
         handler: () => {
             if (filteredData.value && activeIndex.value !== -1) {
@@ -70,6 +71,11 @@ defineShortcuts({
                     selected.has(item) ? selected.delete(item) : selected.add(item)
                 }
             }
+        },
+    },
+    '/': {
+        handler: () => {
+            inputRef.value.$el.children[0].focus()
         },
     },
 })
@@ -87,7 +93,11 @@ onMounted(execute)
                 :ui="{ wrapper: 'h-full flex flex-col', container: 'flex-1', base: 'h-full flex flex-col' }"
             >
                 <template #list>
-                    <u-input v-model="search" color="gray" size="lg" placeholder="Search camera" class="mb-2 mt-1" />
+                    <u-input ref="inputRef" v-model="search" autofocus color="gray" size="lg" placeholder="Search camera" class="mb-2 mt-1">
+                        <template #trailing>
+                            <u-kbd>/</u-kbd>
+                        </template>
+                    </u-input>
 
                     <ul style="contain: strict;" class="h-full overflow-auto">
                         <li
