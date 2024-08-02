@@ -1,11 +1,12 @@
-import { ElementType, parseDocument } from 'htmlparser2'
+import { DomUtils, ElementType, parseDocument } from 'htmlparser2'
 import { parse } from '@babel/parser'
 import _traverse from '@babel/traverse'
 
-import type { DataNode, Element } from 'domhandler' // https://github.com/babel/babel/issues/13855
+import type { DataNode, Element } from 'domhandler'
 import type { Node } from '@babel/traverse'
 import type { ArrayExpression, ObjectProperty, UnaryExpression } from '@babel/types'
 
+// https://github.com/babel/babel/issues/13855
 const traverse = (_traverse as unknown as { default: typeof _traverse }).default
 
 export function astToObject(node: Node): any {
@@ -38,12 +39,19 @@ export function astToObject(node: Node): any {
 
 export default defineCachedEventHandler(async () => {
     const result = await $fetch<string>('https://www.photonstophotos.net/Charts/PDR.htm')
-    const rootDom = parseDocument(result)
-    const htmlDom = rootDom.children.find((n): n is Element => n.type === ElementType.Tag && n.name === 'html')
-    const headDom = htmlDom?.children.find((n): n is Element => n.type === ElementType.Tag && n.name === 'head')
-    const scriptDom = headDom?.children.find((n): n is Element => n.type === ElementType.Script && n.attribs.type === 'text/javascript' && !n.attribs.src)
-    const javascriptCode = (scriptDom?.children[0] as DataNode).data
+
+    const rootDOM = parseDocument(result)
+    const scriptDOM = DomUtils.find((node) => {
+        if (node.type === ElementType.Script && node.attribs.type === 'text/javascript' && !node.attribs.src) {
+            const code = (node.children[0] as DataNode).data
+            return code.includes('var chart;')
+        }
+        return false
+    }, rootDOM.children, true, 1)[0] as Element
+
+    const javascriptCode = (scriptDOM?.children[0] as DataNode).data
     const ast = parse(javascriptCode)
+
     let ret
     traverse(ast, {
         enter({ node }) {
@@ -59,5 +67,5 @@ export default defineCachedEventHandler(async () => {
     })
     return ret
 },
-{ maxAge: 3600 * 24 },
+{ maxAge: 15 * 60 * 1000 },
 )
