@@ -5,15 +5,41 @@ const { data: cameraData, execute } = useLazyFetch<Camera[]>('/api/data', {
     immediate: false,
     server: false,
 })
+onMounted(execute)
+
+const selectedCamerasFromUrl = useRouteQuery('item')
 
 const selectedCameras = reactive(new Set<Camera>())
 
-onMounted(execute)
+// setup `selectedCameras` from url query when `cameraData` is loaded
+whenever(cameraData, (val) => {
+    selectedCameras.clear()
+    if (selectedCamerasFromUrl.value) {
+        if (Array.isArray(selectedCamerasFromUrl.value)) {
+            selectedCamerasFromUrl.value.forEach((str) => {
+                const camera = val.find(cam => cam.name === str)
+                if (camera) selectedCameras.add(camera)
+            })
+        } else {
+            const camera = val.find(cam => cam.name === selectedCamerasFromUrl.value)
+            if (camera) selectedCameras.add(camera)
+        }
+    }
+})
+
+// update url query when `selectedCameras` changes
+watch(selectedCameras, () => {
+    selectedCamerasFromUrl.value = Array.from(selectedCameras).map(camera => camera.name)
+})
 </script>
 
 <template>
     <div class="container py-4 h-full flex space-x-4">
-        <chart :data="Array.from(selectedCameras)" class="items-stretch flex-1" />
+        <chart
+            :data="Array.from(selectedCameras)"
+            :show-welcome="!selectedCamerasFromUrl?.length"
+            class="items-stretch flex-1"
+        />
 
         <div class="sidebar h-full w-[350px] shrink-0">
             <u-tabs

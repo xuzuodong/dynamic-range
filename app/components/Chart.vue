@@ -2,6 +2,7 @@
 import type { Camera } from '~~/types/Camera'
 
 const props = defineProps<{
+    showWelcome?: boolean
     data: Camera[]
 }>()
 
@@ -12,7 +13,7 @@ const gotIt = ref(false)
     <div class="relative">
         <chart-inner :data class="w-full h-full" style="contain: strict;" />
         <div
-            v-if="!data.length && !gotIt"
+            v-if="!data.length && !gotIt && showWelcome"
             class="absolute top-0 left-0 w-full h-full flex justify-center items-center backdrop-blur-sm"
         >
             <div class="text-center">
