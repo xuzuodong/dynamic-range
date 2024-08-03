@@ -13,7 +13,7 @@ onMounted(execute)
 
 <template>
     <div class="container py-4 h-full flex space-x-4">
-        <chart :data="Array.from(selectedCameras)" class="items-stretch flex-1" style="contain: strict;" />
+        <chart :data="Array.from(selectedCameras)" class="items-stretch flex-1" />
 
         <div class="sidebar h-full w-[350px] shrink-0">
             <u-tabs

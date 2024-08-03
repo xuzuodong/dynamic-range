@@ -1,60 +1,30 @@
 <script setup lang="ts">
-import type { Camera, Coord, Marker } from '~~/types/Camera'
+import type { Camera } from '~~/types/Camera'
 
 const props = defineProps<{
     data: Camera[]
 }>()
 
-const chartContainerEl = ref<HTMLDivElement>()
-const chart = shallowRef<echarts.ECharts>()
-
-function getSymbol(marker?: Marker) {
-    if (!marker?.symbol && marker?.fillColor === 'white') return 'emptyCircle'
-    if (marker?.symbol === 'triangle-down') return 'path://M1 3h22L12 22'
-    return marker?.symbol || 'circle'
-}
-
-const series = computed(() => {
-    return props.data.map(item => ({
-        name: item.name,
-        data: item.data.map(p => ({
-            coord: Array.isArray(p) ? p : [p.x, p.y] as Coord,
-            symbol: Array.isArray(p) ? 'circle' : getSymbol(p.marker),
-        })),
-    }))
-})
-
-onMounted(async () => {
-    const echarts = await import('echarts')
-    chart.value = echarts.init(chartContainerEl.value!)
-    chart.value.setOption(echartsBasicConfig)
-
-    watchImmediate(series, () => {
-        chart.value!.setOption({
-            ...echartsBasicConfig,
-            series: series.value.map(lineData => ({
-                name: lineData.name,
-                type: 'line',
-                smooth: true,
-                lineStyle: { width: 1.5 },
-                symbolSize: 10,
-                symbol: 'circle',
-                data: lineData.data.map(p => ({
-                    value: p.coord,
-                    symbol: p.symbol === 'triangle-down'
-                        ? 'path://M1 3h22L12 22'
-                        : p.symbol,
-                })),
-            })),
-        }, true)
-    })
-
-    useResizeObserver(chartContainerEl, useDebounceFn(() => {
-        chart.value?.resize()
-    }, 100))
-})
+const gotIt = ref(false)
 </script>
 
 <template>
-    <div ref="chartContainerEl"></div>
+    <div class="relative">
+        <chart-inner :data class="w-full h-full" style="contain: strict;" />
+        <div
+            v-if="!data.length && !gotIt"
+            class="absolute top-0 left-0 w-full h-full flex justify-center items-center backdrop-blur-sm"
+        >
+            <div class="text-center">
+                <h1 class="pb-3 text-2xl">
+                    <span class="mr-2">👋</span>
+                    <span class="font-semibold font-serif italic">Hi there!</span>
+                </h1>
+                <p class="text-gray-500 dark:text-gray-400">Select a camera from the list to view the data.</p>
+                <div class="h-6"></div>
+                <u-button size="lg" @click="gotIt = true">Got it</u-button>
+                <div class="h-12"></div>
+            </div>
+        </div>
+    </div>
 </template>
