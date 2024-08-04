@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DarkTheme, LightTheme, basicOption } from './option'
+
 import type { Camera, Coord, Marker } from '~~/types/Camera'
 
 const props = defineProps<{
@@ -27,11 +29,11 @@ const series = computed(() => {
 onMounted(async () => {
     const echarts = await import('echarts')
     chart.value = echarts.init(chartContainerEl.value!)
-    chart.value.setOption(echartsBasicConfig)
+    chart.value.setOption(basicOption)
 
     watchImmediate(series, () => {
         chart.value!.setOption({
-            ...echartsBasicConfig,
+            ...basicOption,
             series: series.value.map(lineData => ({
                 name: lineData.name,
                 type: 'line',
@@ -49,10 +51,15 @@ onMounted(async () => {
         }, true)
     })
 
-    useResizeObserver(chartContainerEl, useDebounceFn(() => {
-        chart.value?.resize()
-    }, 100))
+    const colorMode = useColorMode()
+    watchImmediate(() => colorMode.value, (val) => {
+        chart.value?.setOption(val === 'dark' ? DarkTheme : LightTheme)
+    })
 })
+
+useResizeObserver(chartContainerEl, useDebounceFn(() => {
+    chart.value?.resize()
+}, 100))
 </script>
 
 <template>

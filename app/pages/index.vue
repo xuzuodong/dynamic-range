@@ -34,14 +34,14 @@ watch(selectedCameras, () => {
 </script>
 
 <template>
-    <div class="container py-4 h-full flex space-x-4">
+    <div class="px-4 lg:container py-4 h-full flex space-x-4">
         <chart
             :data="Array.from(selectedCameras)"
             :show-welcome="!selectedCamerasFromUrl?.length"
             class="items-stretch flex-1"
         />
 
-        <div class="sidebar h-full w-[350px] shrink-0">
+        <div class="sidebar h-full w-[300px] xl:w-[350px] shrink-0">
             <u-tabs
                 :items="[{ label: 'List', slot: 'list' }, { label: 'Selected', slot: 'selected' }]"
                 :ui="{ wrapper: 'h-full flex flex-col', container: 'flex-1', base: 'h-full flex flex-col' }"
