@@ -26,12 +26,14 @@ const series = computed(() => {
     }))
 })
 
+const colorMode = useColorMode()
+
 onMounted(async () => {
     const echarts = await import('echarts')
     chart.value = echarts.init(chartContainerEl.value!)
     chart.value.setOption(basicOption)
 
-    watchImmediate(series, () => {
+    watchImmediate([series, () => colorMode.value], () => {
         chart.value!.setOption({
             ...basicOption,
             series: series.value.map(lineData => ({
@@ -49,11 +51,7 @@ onMounted(async () => {
                 })),
             })),
         }, true)
-    })
-
-    const colorMode = useColorMode()
-    watchImmediate(() => colorMode.value, (val) => {
-        chart.value?.setOption(val === 'dark' ? DarkTheme : LightTheme)
+        chart.value?.setOption(colorMode.value === 'dark' ? DarkTheme : LightTheme)
     })
 })
 

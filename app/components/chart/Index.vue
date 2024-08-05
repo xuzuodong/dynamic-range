@@ -18,17 +18,19 @@ const gotIt = ref(false)
 
             <div class="h-px bg-gray-300 dark:bg-gray-700"></div>
 
-            <div class="p-4 flex flex-wrap text-xs text-gray-500 dark:text-gray-300">
-                <div v-for="(item, i) in data" :key="item.name" class="flex items-center space-x-2 px-3 py-0.5">
-                    <div class="w-4 h-3.5 rounded shrink-0" :style="{ backgroundColor: dataSeriesColors[i % dataSeriesColors.length] }"></div>
-                    <div>{{ item.name }}</div>
+            <div class="min-h-[108px]">
+                <div class="p-4 flex flex-wrap text-xs text-gray-500 dark:text-gray-300">
+                    <div v-for="(item, i) in data" :key="item.name" class="flex items-center space-x-2 px-3 py-0.5">
+                        <div class="w-4 h-3.5 rounded shrink-0" :style="{ backgroundColor: dataSeriesColors[i % dataSeriesColors.length] }"></div>
+                        <div>{{ item.name }}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="p-4 pt-0 flex text-sm text-gray-500 dark:text-gray-300">
-                <p class="px-3 flex items-center space-x-2"><u-icon name="carbon:triangle-solid" /> <span>Scaling</span></p>
-                <p class="px-3 flex items-center space-x-2"><u-icon name="carbon:triangle-down-solid" /> <span>Noise reduction</span></p>
-                <p class="px-3 flex items-center space-x-2"><u-icon name="ic:outline-circle" /> <span>Extended ISO Setting</span></p>
+                <div class="p-4 pt-0 flex text-sm text-gray-500 dark:text-gray-300">
+                    <p class="px-3 flex items-center space-x-2"><u-icon name="carbon:triangle-solid" /> <span>Scaling</span></p>
+                    <p class="px-3 flex items-center space-x-2"><u-icon name="carbon:triangle-down-solid" /> <span>Noise reduction</span></p>
+                    <p class="px-3 flex items-center space-x-2"><u-icon name="ic:outline-circle" /> <span>Extended ISO Setting</span></p>
+                </div>
             </div>
         </div>
         <div
